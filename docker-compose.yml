@@ -1,0 +1,28 @@
+---
+
+networks:
+  test:
+
+services:
+  app:
+    build:
+      context: app
+    expose:
+      - 80
+    networks:
+      - test
+    depends_on:
+      - db
+  db:
+    image: mongo:4
+    expose:
+      - 27017
+  test:
+    build:
+      context: test
+    environment:
+      ENDPOINT: http://app
+    networks:
+      - test
+    depends_on:
+      - app
