@@ -15,12 +15,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build -t api-ci:$(date '+%Y%m%d%H%M%S') app
+      run: docker build -t api-ci:$(date '+%Y%m%d') app
     - name: Build tests Docker image
-      run: docker build -t api-ci-test:latest test
+      run: docker build -t api-ci-test:$(date '+%Y%m%d') test
     - name: Create docker network
       run: docker network create test
     - name: Start application
-      run: docker run -d --network test --name api-ci-run -p 8080:80 api-ci:latest
+      run: docker run -d --network test --name api-ci-run -p 8080:80 api-ci:$(date '+%Y%m%d')
     - name: Execute tests
-      run: docker run --network test --rm --name api-ci-test -e ENDPOINT=http://api-ci-run api-ci-test:latest
+      run: docker run --network test --rm --name api-ci-test -e ENDPOINT=http://api-ci-run api-ci-test:$(date '+%Y%m%d')
