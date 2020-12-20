@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build -t api-ci:$(date '+%Y%m%d%H%M%S∫') app
+      run: docker build -t api-ci:$(date '+%Y%m%d%H%M%S') app
     - name: Build tests Docker image
       run: docker build -t api-ci-test:latest test
     - name: Create docker network
