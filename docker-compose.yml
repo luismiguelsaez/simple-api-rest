@@ -9,6 +9,10 @@ services:
       context: app
     expose:
       - 80
+    environment:
+      MONGO_HOST: db
+      MONGO_PORT: 27017
+      MONGO_DB: test
     networks:
       - test
     depends_on:
