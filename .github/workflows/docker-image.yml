@@ -21,7 +21,7 @@ jobs:
     - name: Create docker network
       run: docker network create test
     - name: Start application
-      run: docker run -d --network test --name api-ci-run -p 8080:80 api-ci:${{ github.run_number }}
+      run: docker run -d --network test --name api-ci-run -e MONGO_HOST=db -e MONGO_PORT=27017 -e MONGO_DB=test -p 8080:80 api-ci:${{ github.run_number }}
     - name: Execute tests
       run: docker run --network test --rm --name api-ci-test -e ENDPOINT=http://api-ci-run api-ci-test:${{ github.run_number }}
     - name: Login to Docker Hub
