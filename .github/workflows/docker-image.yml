@@ -15,15 +15,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build -t api-ci:$(date '+%Y%m%d') app
+      run: docker build -t api-ci:${{ github.run_number }} app
     - name: Build tests Docker image
-      run: docker build -t api-ci-test:$(date '+%Y%m%d') test
+      run: docker build -t api-ci-test:${{ github.run_number }} test
     - name: Create docker network
       run: docker network create test
     - name: Start application
-      run: docker run -d --network test --name api-ci-run -p 8080:80 api-ci:$(date '+%Y%m%d')
+      run: docker run -d --network test --name api-ci-run -p 8080:80 api-ci:${{ github.run_number }}
     - name: Execute tests
-      run: docker run --network test --rm --name api-ci-test -e ENDPOINT=http://api-ci-run api-ci-test:$(date '+%Y%m%d')
+      run: docker run --network test --rm --name api-ci-test -e ENDPOINT=http://api-ci-run api-ci-test:${{ github.run_number }}
     - name: Login to Docker Hub
       uses: docker/login-action@v1
       with:
@@ -31,5 +31,5 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
     - name: Push image
       run: |
-        docker tag api-ci:$(date '+%Y%m%d') ${{ secrets.DOCKERHUB_USERNAME }}/api-ci:$(date '+%Y%m%d')
-        docker push luismiguelsaez/api-ci:$(date '+%Y%m%d')
+        docker tag api-ci:${{ github.run_number }} ${{ secrets.DOCKERHUB_USERNAME }}/api-ci:${{ github.run_number }}
+        docker push luismiguelsaez/api-ci:${{ github.run_number }}
