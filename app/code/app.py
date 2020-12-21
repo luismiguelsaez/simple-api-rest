@@ -1,12 +1,25 @@
-from flask import Flask
+from flask import Flask, request
 from os import environ
 import pymongo
 
 app = Flask(__name__)
 
 @app.route('/')
-def hello_world():
+def base():
     return 'Hello, World!'
+
+@app.route('/db/<database>/<collection>', methods=['GET','POST','PUT'])
+def database(database,collection):
+    if request.method == 'GET':
+        return {"method":request.method,"db":database,"coll":collection,"result":"OK"}, 200
+
+    if request.method == 'POST':
+        return {"method":request.method,"db":database,"coll":collection,"result":"OK"}, 200
+
+    if request.method == 'PUT':
+        return {"method":request.method,"db":database,"coll":collection,"result":"OK"}, 200
+    
+    return {"method":request.method,"result":"ERROR","message":"HTTP method not supported"}, 404
 
 @app.route('/db/test')
 def db_test():
@@ -22,4 +35,4 @@ def db_test():
     except Exception as excDb:
         return {"result":"ERROR","message":"Failure while creating database connection"}, 500
 
-    return {"result":"OK"}
+    return {"result":"OK"}, 200
