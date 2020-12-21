@@ -18,7 +18,7 @@ def test_put_db_database_collection_200():
      assert response.status_code == 200
 
 def test_post_db_database_collection_200():
-     response = post(environ.get('ENDPOINT') + "/db/testdb/testcoll")
+     response = post(environ.get('ENDPOINT') + "/db/testdb/testcoll",data = {'somekey':'somevalue'})
      assert response.status_code == 200
 
 def test_delete_db_database_collection_200():
