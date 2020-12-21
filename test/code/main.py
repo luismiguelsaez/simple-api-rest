@@ -25,6 +25,6 @@ def test_delete_db_database_collection_200():
      response = delete(environ.get('ENDPOINT') + "/db/testdb/testcoll")
      assert response.status_code == 200
 
-def test_patch_db_database_collection_404():
+def test_patch_db_database_collection_405():
      response = patch(environ.get('ENDPOINT') + "/db/testdb/testcoll")
-     assert response.status_code == 404
+     assert response.status_code == 405

@@ -8,7 +8,7 @@ app = Flask(__name__)
 def base():
     return 'Hello, World!'
 
-@app.route('/db/<database>/<collection>', methods=['GET','POST','PUT'])
+@app.route('/db/<database>/<collection>', methods=['GET','POST','PUT','DELETE'])
 def database(database,collection):
     if request.method == 'GET':
         return {"method":request.method,"db":database,"coll":collection,"result":"OK"}, 200
@@ -18,7 +18,10 @@ def database(database,collection):
 
     if request.method == 'PUT':
         return {"method":request.method,"db":database,"coll":collection,"result":"OK"}, 200
-    
+
+    if request.method == 'DELETE':
+        return {"method":request.method,"db":database,"coll":collection,"result":"OK"}, 200
+
     return {"method":request.method,"result":"ERROR","message":"HTTP method not supported"}, 404
 
 @app.route('/db/test')
